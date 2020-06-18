@@ -1,6 +1,17 @@
+#Rules: 
+#1) Guess 4 numbers correctly to win, individul number ranges from 0 to 9 inclusive
+#2) Numbers in the four position could have duplicates as they are generated randomly
+#3) The first hint tells you the amount of correct numbers in CORRECT POSITIONS but the exact numbers are not known
+#4) The Second hint tells you the amount of correct numbers in WRONG POSITIONS
+#5) Note, numbers in first and second hint does not overlap
+#6) There are unlimited tries
 
-def misterMind(ans):
-    ans = str(ans)
+import random
+
+ans = ""
+for i in range(4):
+    ans += str(random.randint(0,9))
+def misterMind():
     count = {}
     for num in ans:
         if num not in count:
@@ -12,7 +23,7 @@ def misterMind(ans):
     if result:
         print(result)
     else:
-        misterMind(ans)
+        misterMind()
 def checker(guess, ans, count):
     A = 0
     B = 0
@@ -28,5 +39,7 @@ def checker(guess, ans, count):
                 if count[guess[k]]>0:
                     B += 1
                     count[guess[k]] -= 1
-        print(A)
-        print(B)
+        print("Correct Numbers in correct position " + str(A))
+        print("Correct Numbers in wrong position " + str(B))
+
+misterMind()
