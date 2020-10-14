@@ -13,17 +13,26 @@ for i in range(4):
     ans += str(random.randint(0,9))
 def misterMind():
     count = {}
-    for num in ans:
-        if num not in count:
-            count[num] = 1
+    original_count = []
+    reset = 0
+    for ch in ans:
+        if ch not in count:
+            count[ch] = 1
         else:
-            count[num] +=1
-    guess = input("Please guess!")
+            count[ch] += 1
+    for num in count:
+        original_count.append(count[num])
+    guess = input("Please guess a four digit number!")
     result = checker(guess, ans, count)
-    if result:
-        print(result)
-    else:
-        misterMind()
+    while not result:
+        for num in count:
+            count[num] = original_count[reset]
+            reset += 1
+        reset = 0
+        guess = input("Please guess a four digit number!")
+        result = checker(guess, ans, count)
+    print(result)
+
 def checker(guess, ans, count):
     A = 0
     B = 0
@@ -32,13 +41,14 @@ def checker(guess, ans, count):
     else:
         for i in range(len(guess)):
             if guess[i] == ans[i]:
-                A+=1
+                A += 1
                 count[guess[i]] -= 1
         for k in range(len(guess)):
             if guess[k] in ans:
-                if count[guess[k]]>0:
+                if count[guess[k]] > 0:
                     B += 1
                     count[guess[k]] -= 1
+
         print("Correct Numbers in correct position " + str(A))
         print("Correct Numbers in wrong position " + str(B))
 
